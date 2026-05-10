@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: three-tier
+  labels:
+    role: frontend
+    env: demo
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      role: frontend
+
+  template:
+    metadata:
+      labels:
+        role: frontend
+
+    spec:
+      containers:
+      - name: frontend
+        image: 068799540153.dkr.ecr.eu-north-1.amazonaws.com/three-tier-frontend:latest
+
+        ports:
+        - containerPort: 3000
+
+        env:
+        - name: REACT_APP_BACKEND_URL
+          value: "http://backend/api/tasks"
